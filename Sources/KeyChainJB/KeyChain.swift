@@ -8,32 +8,57 @@
 import Foundation
 import KeychainSwift
 
-public struct KeyChainJB {
+protocol SecureDataProtocol {
+    func set(token: String, key: String)
+    func getToken(key: String) -> String?
+    func deleteToken(key: String)
+}
+//MARK: - SecureData
+public struct SecureDataKeychain: SecureDataProtocol {
     
-    public init(){}
+    private let keychain = KeychainSwift()
     
-    //función guardar clave
-    @discardableResult
-    public func saveKC(key: String, value: String) -> Bool {
-        if let data = value.data(using: .utf8) {
-            return KeychainSwift().set(data, forKey: key)
-        } else {
-            return false
-        }
+    init(){}
+
+    //set
+    public func set(token: String, key: String) {
+        keychain.set(token, forKey: key)
     }
+    //get
+    public func getToken(key: String) -> String? {
+        if let token = keychain.get(key) {
+            return token
+        } else {
+            return ""
+        }
+        
+    }
+    //delete
+    public func deleteToken(key: String) {
+        keychain.delete(key)
+    }
+}
+//MARK: - FakeSecureData
+public struct SecureDataUserDefaults: SecureDataProtocol {
     
-    //función cargar clave
-    public func loadKC(key: String) -> String? {
-        if let data = KeychainSwift().get(key) {
-            return data
+    private let userDefaults = UserDefaults.standard
+    
+    init(){}
+
+    //set
+    public func set(token: String, key: String) {
+        userDefaults.setValue(token, forKey: key)
+    }
+    //get
+    public func getToken(key: String) -> String? {
+        if let token = userDefaults.value(forKey: key) as? String{
+            return token
         } else {
             return ""
         }
     }
-    
-    //función borrar clave
-    @discardableResult
-    public func deleteKC(key: String) -> Bool {
-        KeychainSwift().delete(key)
+    //delete
+    public func deleteToken(key: String) {
+        userDefaults.removeObject(forKey: key)
     }
 }
