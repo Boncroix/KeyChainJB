@@ -19,7 +19,7 @@ public final class SecureDataKeychain: SecureDataProtocol {
     
     private let keychain = KeychainSwift()
     
-    init(){}
+    public init(){}
 
     //set
     public func set(token: String, key: String) {
@@ -44,7 +44,7 @@ public final class SecureDataUserDefaults: SecureDataProtocol {
     
     private let userDefaults = UserDefaults.standard
     
-    init(){}
+    public init(){}
 
     //set
     public func set(token: String, key: String) {
