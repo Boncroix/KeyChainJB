@@ -15,7 +15,7 @@ public protocol SecureDataProtocol {
     func deleteToken(key: String)
 }
 //MARK: - SecureData
-public struct SecureDataKeychain: SecureDataProtocol {
+public final class SecureDataKeychain: SecureDataProtocol {
     
     private let keychain = KeychainSwift()
     
@@ -40,7 +40,7 @@ public struct SecureDataKeychain: SecureDataProtocol {
     }
 }
 //MARK: - FakeSecureData
-public struct SecureDataUserDefaults: SecureDataProtocol {
+public final class SecureDataUserDefaults: SecureDataProtocol {
     
     private let userDefaults = UserDefaults.standard
     
