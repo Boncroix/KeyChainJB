@@ -8,7 +8,8 @@
 import Foundation
 import KeychainSwift
 
-protocol SecureDataProtocol {
+//MARK: - Protocol
+public protocol SecureDataProtocol {
     func set(token: String, key: String)
     func getToken(key: String) -> String?
     func deleteToken(key: String)
